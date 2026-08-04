@@ -26,7 +26,7 @@ function HeroSection() {
       spacing="none"
       overflow="hidden"
       contained={false}
-      className="bg-background"
+      className="portfolio-hero bg-background"
     >
       <div className="flex min-h-svh flex-col bg-background lg:h-svh lg:min-h-0">
         {/* Main visual */}
@@ -45,7 +45,7 @@ function HeroSection() {
             aria-hidden="true"
             className={cn(
               "absolute inset-0",
-              "bg-[linear-gradient(100deg,rgba(255,77,15,0.94)_0%,rgba(190,44,18,0.7)_34%,rgba(55,15,13,0.38)_68%,rgba(4,4,4,0.84)_100%)]"
+              "bg-[linear-gradient(100deg,rgba(255,77,15,0.94)_0%,rgba(190,44,18,0.7)_34%,rgba(55,15,13,0.38)_68%,rgba(4,4,4,0.84)_100%)]",
             )}
           />
 
@@ -93,10 +93,11 @@ function HeroSection() {
 
                 <h1
                   id="hero-heading"
+                  aria-label="Full-Stack AI Product Developer"
                   className={cn(
                     "text-[clamp(3.75rem,8vw,8.5rem)]",
                     "font-semibold leading-[0.82]",
-                    "tracking-[-0.07em] text-white"
+                    "tracking-[-0.07em] text-white",
                   )}
                 >
                   <span className="block">Full-Stack</span>
@@ -117,15 +118,13 @@ function HeroSection() {
 
                 <Button
                   size="lg"
+                  nativeButton={false}
                   className="mt-7"
                   render={<Link href={actions.secondary.href} />}
                 >
                   {actions.secondary.label}
 
-                  <ArrowUpRight
-                    data-icon="inline-end"
-                    aria-hidden="true"
-                  />
+                  <ArrowUpRight data-icon="inline-end" aria-hidden="true" />
                 </Button>
               </div>
             </div>
@@ -138,11 +137,9 @@ function HeroSection() {
                   href={capability.href}
                   className={cn(
                     "group flex items-start justify-between gap-4",
-                    index > 0 &&
-                      "sm:border-l sm:border-white/10 sm:pl-6",
+                    index > 0 && "sm:border-l sm:border-white/10 sm:pl-6",
                     index === 2 && "sm:border-l-0 sm:pl-0",
-                    index === 2 &&
-                      "lg:border-l lg:border-white/10 lg:pl-6"
+                    index === 2 && "lg:border-l lg:border-white/10 lg:pl-6",
                   )}
                 >
                   <div>
@@ -162,7 +159,7 @@ function HeroSection() {
                       "transition-all duration-300",
                       "group-hover:-translate-y-0.5",
                       "group-hover:translate-x-0.5",
-                      "group-hover:text-primary"
+                      "group-hover:text-primary",
                     )}
                   />
                 </Link>
@@ -186,7 +183,7 @@ function HeroSection() {
 
             <ul
               aria-label="Core technologies"
-              className="grid grid-cols-2 gap-x-6 gap-y-4 sm:grid-cols-4 lg:flex lg:justify-end lg:gap-10"
+              className="grid grid-cols-2 gap-x-6 gap-y-4 sm:grid-cols-4 xl:flex xl:justify-end xl:gap-10"
             >
               {expertise.technologies.map((technology) => (
                 <li

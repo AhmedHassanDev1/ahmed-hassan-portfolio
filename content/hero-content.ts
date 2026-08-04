@@ -6,9 +6,9 @@ export const heroContent = {
     status: "available",
   },
 
-  introduction: "Hi, I’m Ahmed Hassan",
+  introduction: "Hi, I'm Ahmed Hassan",
 
-  role: "Full-Stack Developer · AI-Powered Products",
+  role: "Full-Stack Developer / AI-Powered Products",
 
   headline: {
     beforeHighlight: "I build scalable",
@@ -27,7 +27,7 @@ export const heroContent = {
     },
 
     secondary: {
-      label: "Let’s Work Together",
+      label: "Let's Work Together",
       href: "#contact",
       icon: "arrow-up-right",
     },

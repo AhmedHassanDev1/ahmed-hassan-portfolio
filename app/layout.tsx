@@ -1,25 +1,13 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
-import { Inter, Newsreader, Roboto } from "next/font/google";
-import { cn } from "@/lib/utils";
 import Navibar from "@/components/layout/Navibar";
 
-const roboto = Roboto({subsets:['latin'],variable:'--font-sans'});
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-  display: "swap",
-});
-
-const newsreader = Newsreader({
-  subsets: ["latin"],
-  variable: "--font-newsreader",
-  style: ["italic"],
-  display: "swap",
-});
-
+export const metadata: Metadata = {
+  title: "Ahmed Hassan | Full-Stack AI Product Developer",
+  description:
+    "Portfolio for a full-stack developer building AI-powered SaaS products, workflows, and backend systems.",
+};
 
 export default function RootLayout({
   children,
@@ -27,14 +15,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={cn("h-full", "antialiased", inter.variable, newsreader.variable, "font-sans", roboto.variable)}
-    >
-      <body className="min-h-full flex flex-col">
+    <html lang="en" className="h-full scroll-smooth antialiased">
+      <body className="min-h-full">
         <Navibar />
         {children}
-        </body>
+      </body>
     </html>
   );
 }

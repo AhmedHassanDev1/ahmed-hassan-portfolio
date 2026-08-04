@@ -1,7 +1,9 @@
 import type { Project } from "@/content/projects-content";
 import { projectsContent } from "@/content/projects-content";
+import { PointerRevealGroup } from "@/components/ui/pointer-reveal";
 import { SectionContainer } from "../section-container";
 import Image from "next/image";
+
 function Arrow({ diagonal = false }: { diagonal?: boolean }) {
   return (
     <svg
@@ -33,8 +35,14 @@ function ProjectVisual({ kind }: { kind: Project["visual"] }) {
           <div className="map-grid" />
           <div className="route route-a" />
           <div className="route route-b" />
-          <div className="metric metric-a"><b>72%</b><small>efficiency</small></div>
-          <div className="metric metric-b"><b>184</b><small>shipments</small></div>
+          <div className="metric metric-a">
+            <b>72%</b>
+            <small>efficiency</small>
+          </div>
+          <div className="metric metric-b">
+            <b>184</b>
+            <small>shipments</small>
+          </div>
         </>
       )}
 
@@ -84,7 +92,7 @@ function ProjectCopy({ project }: { project: Project }) {
         </div>
         <div>
           <dt>Capability:</dt>
-          <dd>{project.capabilities.join(" · ")}</dd>
+          <dd>{project.capabilities.join(" / ")}</dd>
         </div>
       </dl>
 
@@ -100,7 +108,11 @@ function ProjectCard({ project }: { project: Project }) {
   const visualFirst = project.layout === "compact";
 
   return (
-    <article className={`project-card project-${project.layout}`} id={project.id}>
+    <article
+      className={`project-card project-${project.layout}`}
+      id={project.id}
+      data-reveal-card
+    >
       {visualFirst && <ProjectVisual kind={project.visual} />}
       <ProjectCopy project={project} />
       {!visualFirst && <ProjectVisual kind={project.visual} />}
@@ -110,37 +122,44 @@ function ProjectCard({ project }: { project: Project }) {
 
 export function ProjectsSection() {
   const { header, projects, footer } = projectsContent;
-  
+
   return (
     <SectionContainer
       id="projects"
-      aria-labelledby="hero-heading"
+      aria-labelledby="projects-heading"
       spacing="none"
       overflow="hidden"
       contained={false}
-      className="bg-background">
-      <div className="projects-shell">
+      className="projects-section"
+    >
+      <div className="section-shell projects-shell">
         <header className="projects-header">
-          <Image src={header.image} alt={header.title} fill className="object-cover object-center" />
-          <div className=" relative z-10">
-             <span className="eyebrow">{header.eyebrow}</span>
-          <h2 id="projects-heading">
-            {header.title}
-            <em>{header.highlight}</em>
-          </h2>
-          <p>{header.description}</p>
-          <a href={header.actionHref} className="header-link">
-            {header.actionLabel}
-            <Arrow />
-          </a>
+          <Image
+            src={header.image}
+            alt=""
+            fill
+            sizes="(max-width: 820px) 100vw, 1120px"
+            className="object-cover object-center"
+          />
+          <div className="projects-header-content">
+            <span className="eyebrow">{header.eyebrow}</span>
+            <h2 id="projects-heading">
+              {header.title}
+              <em>{header.highlight}</em>
+            </h2>
+            <p>{header.description}</p>
+            <a href={header.actionHref} className="header-link">
+              {header.actionLabel}
+              <Arrow />
+            </a>
           </div>
         </header>
 
-        <div className="projects-grid" id="all-projects">
+        <PointerRevealGroup className="projects-grid" id="all-projects">
           {projects.map((project) => (
             <ProjectCard key={project.id} project={project} />
           ))}
-        </div>
+        </PointerRevealGroup>
 
         <a className="projects-footer" href={footer.href}>
           <span>{footer.text}</span>

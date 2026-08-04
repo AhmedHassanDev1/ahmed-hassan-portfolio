@@ -87,7 +87,7 @@ export const projectsContent = {
   ] satisfies readonly Project[],
   footer: {
     text: "Have a product challenge?",
-    highlight: "Let’s turn it into reliable software.",
+    highlight: "Let's turn it into reliable software.",
     href: "#contact",
   },
 } as const;

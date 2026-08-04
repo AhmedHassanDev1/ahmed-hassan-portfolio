@@ -1,15 +1,29 @@
-import { PageContainer } from "@/components/layout/page-container";
 import HeroSection from "@/components/layout/sections/HeroSection";
-import {ProjectsSection} from "@/components/layout/sections/ProjectsSection";
+import { ProjectsSection } from "@/components/layout/sections/ProjectsSection";
+import {
+  AboutSection,
+  ContactSection,
+  ExperienceSection,
+  FooterSection,
+  ServicesSection,
+  SkillsSection,
+  TestimonialsSection,
+} from "@/components/layout/sections/portfolio-sections";
 import { WorkflowSection } from "@/components/layout/sections/workflow-section";
-
 
 export default function Home() {
   return (
-    <PageContainer className=" space-y-2">
+    <main className="site-main">
       <HeroSection />
-      <ProjectsSection />
+      <AboutSection />
+      <SkillsSection />
       <WorkflowSection />
-    </PageContainer>
+      <ProjectsSection />
+      <ServicesSection />
+      <ExperienceSection />
+      <TestimonialsSection />
+      <ContactSection />
+      <FooterSection />
+    </main>
   );
 }
