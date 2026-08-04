@@ -135,64 +135,37 @@ export const servicesContent = {
   ],
 } as const;
 
-export const experienceContent = {
-  eyebrow: "Experience",
-  title: "How projects usually move from uncertainty to launch.",
-  items: [
-    {
-      period: "01",
-      title: "Discovery and system framing",
-      description:
-        "Clarify the business problem, user roles, data shape, risks, and first useful release.",
-    },
-    {
-      period: "02",
-      title: "Prototype to production path",
-      description:
-        "Turn the core workflow into tested UI and backend slices, then harden the architecture around it.",
-    },
-    {
-      period: "03",
-      title: "Launch, measure, and iterate",
-      description:
-        "Ship with operational visibility, performance checks, and a roadmap informed by actual behavior.",
-    },
-  ],
-} as const;
-
-export const testimonialsContent = {
-  eyebrow: "Testimonials",
-  title: "The kind of collaboration clients remember.",
-  quotes: [
-    {
-      quote:
-        "Ahmed translates messy operational requirements into clean product decisions and ships with real engineering discipline.",
-      name: "Product founder",
-      role: "B2B SaaS",
-    },
-    {
-      quote:
-        "The final dashboard felt polished, fast, and considered. It looked good, but more importantly, our team could actually use it.",
-      name: "Operations lead",
-      role: "Logistics platform",
-    },
-  ],
-} as const;
 
 export const contactContent = {
-  eyebrow: "Contact",
-  title: "Have an AI product or workflow that needs to become real software?",
+  sectionId: "contact",
+
+  eyebrow: {
+    label: "Contact",
+    separator: "/",
+    accent: "Start a project",
+  },
+
+  title: {
+    primary: "Have an idea",
+    accent: "worth building?",
+  },
+
   description:
-    "Send the problem, the current process, and the business outcome you want. I will help shape the shortest path to a useful release.",
-  email: "hello@example.com",
-  actions: [
-    { label: "Start a conversation", href: "mailto:hello@example.com" },
-    { label: "View selected work", href: "#projects" },
-  ],
-  signals: [
-    { label: "Security-aware", icon: ShieldCheck },
-    { label: "Fast interfaces", icon: Gauge },
-    { label: "Clear communication", icon: MessageSquareText },
-    { label: "Reliable systems", icon: LockKeyhole },
-  ],
+    "Tell me what you’re building, and I’ll help turn it into a useful, scalable digital product.",
+
+  background: {
+    src: "/images/contact-hands.webp",
+    alt: "",
+  },
+
+  form: {
+    action: "/api/contact",
+    method: "post",
+
+    fields: [
+      // Name
+      // Email
+      // Message
+    ],
+  },
 } as const;

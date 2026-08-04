@@ -7,10 +7,10 @@ import { PointerRevealGroup } from "@/components/ui/pointer-reveal";
 import {
   aboutContent,
   contactContent,
-  experienceContent,
+
   servicesContent,
   skillsContent,
-  testimonialsContent,
+ 
 } from "@/content/portfolio-content";
 import { cn } from "@/lib/utils";
 import { SectionContainer } from "../section-container";
@@ -388,139 +388,10 @@ export function ServicesSection() {
   );
 }
 
-export function ExperienceSection() {
-  return (
-    <SectionContainer
-      id="experience"
-      aria-labelledby="experience-heading"
-      contained={false}
-      className="section-band"
-    >
-      <div className="section-shell experience-shell">
-        <SectionHeader
-          eyebrow={experienceContent.eyebrow}
-          title={experienceContent.title}
-        />
 
-        <PointerRevealGroup
-          className="timeline-reveal-group"
-          aria-label="Experience stages"
-        >
-          <ol className="timeline-list">
-            {experienceContent.items.map((item) => (
-              <li key={item.period} data-reveal-card>
-                <span>{item.period}</span>
-                <div>
-                  <h3>{item.title}</h3>
-                  <p>{item.description}</p>
-                </div>
-              </li>
-            ))}
-          </ol>
-        </PointerRevealGroup>
-      </div>
-    </SectionContainer>
-  );
-}
 
-export function TestimonialsSection() {
-  return (
-    <SectionContainer
-      id="testimonials"
-      aria-labelledby="testimonials-heading"
-      contained={false}
-    >
-      <div className="section-shell">
-        <SectionHeader
-          eyebrow={testimonialsContent.eyebrow}
-          title={testimonialsContent.title}
-          align="center"
-        />
 
-        <PointerRevealGroup
-          className="testimonial-grid"
-          aria-label="Testimonials"
-        >
-          {testimonialsContent.quotes.map((item) => (
-            <GlassPanel
-              key={item.name}
-              radius="card"
-              className="quote-card"
-              data-reveal-card
-            >
-              <blockquote>{item.quote}</blockquote>
-              <footer>
-                <strong>{item.name}</strong>
-                <span>{item.role}</span>
-              </footer>
-            </GlassPanel>
-          ))}
-        </PointerRevealGroup>
-      </div>
-    </SectionContainer>
-  );
-}
 
-export function ContactSection() {
-  return (
-    <SectionContainer
-      id="contact"
-      aria-labelledby="contact-heading"
-      contained={false}
-      className="contact-section"
-    >
-      <PointerRevealGroup
-        className="section-shell contact-shell"
-        aria-label="Contact call to action"
-        data-reveal-card
-      >
-        <div>
-          <span className="section-eyebrow">{contactContent.eyebrow}</span>
-          <h2 id="contact-heading" className="section-title">
-            {contactContent.title}
-          </h2>
-          <p className="section-description">{contactContent.description}</p>
-
-          <div className="contact-actions">
-            <Button
-              size="lg"
-              nativeButton={false}
-              render={<Link href={contactContent.actions[0].href} />}
-            >
-              <Mail data-icon="inline-start" aria-hidden="true" />
-              {contactContent.actions[0].label}
-            </Button>
-            <Button
-              variant="outline"
-              size="lg"
-              nativeButton={false}
-              render={<Link href={contactContent.actions[1].href} />}
-            >
-              {contactContent.actions[1].label}
-              <ArrowUpRight data-icon="inline-end" aria-hidden="true" />
-            </Button>
-          </div>
-        </div>
-
-        <GlassPanel radius="panel" className="contact-panel">
-          <a href={`mailto:${contactContent.email}`}>{contactContent.email}</a>
-          <div className="contact-signal-grid">
-            {contactContent.signals.map((signal) => {
-              const Icon = signal.icon;
-
-              return (
-                <div key={signal.label}>
-                  <Icon aria-hidden="true" />
-                  <span>{signal.label}</span>
-                </div>
-              );
-            })}
-          </div>
-        </GlassPanel>
-      </PointerRevealGroup>
-    </SectionContainer>
-  );
-}
 
 export function FooterSection() {
   return (

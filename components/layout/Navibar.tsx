@@ -3,13 +3,14 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 
 import { navLinks } from "@/content/portfolio-content";
+import { Logo } from "../ui/Logo";
 
 function Navibar() {
   return (
     <header className="site-nav">
       <div className="section-shell nav-shell">
         <Link href="#home" className="nav-brand" aria-label="Ahmed Hassan home">
-          <span aria-hidden="true">AH</span>
+          {/* <Logo /> */}
           <strong>Ahmed Hassan</strong>
         </Link>
 
