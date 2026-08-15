@@ -109,7 +109,7 @@ export const workflowContent = {
     highlight: "reliable product.",
   },
   description:
-    "A stable web-product process from research and scope through architecture, development, quality, launch, and iteration.",
+    "A structured product process from research and scope through architecture, development, launch, and iteration.",
   stages: workflowStages,
   initialStageId: initialWorkflowStageId,
   proof: [

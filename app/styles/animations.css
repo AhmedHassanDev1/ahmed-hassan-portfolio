@@ -1,0 +1,123 @@
+.pointer-reveal-group {
+  --reveal-radius: 16rem;
+  --reveal-color: 255 119 64;
+}
+
+[data-reveal-card] {
+  --pointer-x: 50%;
+  --pointer-y: 50%;
+  --reveal-opacity: 0;
+  --proximity-strength: 0;
+  position: relative;
+  overflow: hidden;
+  border-color: rgba(255, 255, 255, 0.105);
+  transition:
+    border-color var(--duration-standard) var(--ease-standard),
+    background-color var(--duration-standard) var(--ease-standard),
+    box-shadow var(--duration-standard) var(--ease-standard);
+}
+
+[data-reveal-card] > * {
+  position: relative;
+  z-index: 1;
+}
+
+[data-reveal-card]::before,
+[data-reveal-card]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  opacity: var(--reveal-opacity);
+  pointer-events: none;
+  transition: opacity 360ms var(--ease-standard);
+}
+
+[data-reveal-card]::before {
+  background:
+    radial-gradient(
+      circle var(--reveal-radius) at var(--pointer-x) var(--pointer-y),
+      rgb(var(--reveal-color) / 0.16),
+      rgba(255, 157, 89, 0.075) 34%,
+      rgba(129, 55, 26, 0.025) 58%,
+      transparent 72%
+    ),
+    linear-gradient(
+      145deg,
+      rgba(255, 194, 133, 0.06),
+      transparent 42%
+    );
+}
+
+[data-reveal-card]::after {
+  padding: 1px;
+  background:
+    radial-gradient(
+      circle 8.5rem at var(--pointer-x) var(--pointer-y),
+      rgba(255, 205, 144, 0.82),
+      rgba(255, 116, 58, 0.42) 34%,
+      rgba(150, 67, 32, 0.12) 54%,
+      transparent 72%
+    );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+}
+
+[data-reveal-card]:focus-visible {
+  border-color: rgba(255, 194, 133, 0.5);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 194, 133, 0.12),
+    0 0 0 3px rgba(255, 106, 61, 0.18);
+  outline: 2px solid rgba(255, 194, 133, 0.72);
+  outline-offset: 4px;
+}
+
+[data-reveal-card]:focus-within {
+  border-color: rgba(255, 194, 133, 0.34);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 194, 133, 0.09),
+    0 18px 58px rgba(0, 0, 0, 0.24);
+}
+
+[data-reveal-card]:focus-visible::before,
+[data-reveal-card]:focus-within::before {
+  opacity: max(var(--reveal-opacity), 0.24);
+}
+
+[data-reveal-card]:focus-visible::after,
+[data-reveal-card]:focus-within::after {
+  opacity: max(var(--reveal-opacity), 0.36);
+}
+
+.pointer-reveal-group[data-reveal-active="true"] [data-reveal-card] {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+@keyframes about-dot-reveal {
+  from {
+    background: rgba(255, 106, 61, 0.18);
+    box-shadow: none;
+    opacity: 0.25;
+    transform: scale(0.7);
+  }
+
+  to {
+    background: var(--accent);
+    box-shadow: 0 0 10px rgba(255, 106, 61, 0.42);
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes workflow-line-flow {
+  to {
+    stroke-dashoffset: 0;
+  }
+}

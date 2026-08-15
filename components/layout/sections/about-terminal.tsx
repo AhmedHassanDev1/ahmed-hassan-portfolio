@@ -355,7 +355,7 @@ export function AboutTerminal({ terminal }: AboutTerminalProps) {
                 )}
                 key={line}
               >
-                <span className="about-check">[✓]</span>
+                <span className="about-check">[OK]</span>
                 <span>{line}</span>
               </p>
             ))}

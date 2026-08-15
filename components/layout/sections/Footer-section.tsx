@@ -1,5 +1,4 @@
-import type { SVGProps } from "react";
-import type { LucideIcon } from "lucide-react";
+import type { ComponentType, SVGProps } from "react";
 import { FaGithub } from "react-icons/fa";
 import { FaLinkedin } from "react-icons/fa";
 import {
@@ -24,7 +23,9 @@ import { Logo } from "@/components/ui/Logo";
 import { footerContent } from "@/content/footer-content";
 
 type IconProps = SVGProps<SVGSVGElement>;
-const iconMap: Record<string, LucideIcon> = {
+type FooterIconComponent = ComponentType<IconProps>;
+
+const iconMap: Record<string, FooterIconComponent> = {
   mail: Mail,
   phone: Phone,
   location: MapPin,

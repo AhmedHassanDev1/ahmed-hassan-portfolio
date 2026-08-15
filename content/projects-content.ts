@@ -1,8 +1,13 @@
-export type ProjectLayout = "featured" | "tall" | "compact" | "wide";
+export type ProjectLayout =
+  | "featured"
+  | "tall"
+  | "compact"
+  | "wide";
 
 export type Project = {
   id: string;
-  image?: string;
+  image: string;
+  imageAlt: string;
   number: string;
   name: string;
   eyebrow: string;
@@ -12,81 +17,132 @@ export type Project = {
   actionLabel: string;
   href: string;
   layout: ProjectLayout;
-  visual: "map" | "cloud" | "graph" | "network";
 };
 
 export const projectsContent = {
   header: {
     image: "/Projects-banner-img.jpg",
-    
-    eyebrow: "Selected work",
-    title: "Products built around",
-    highlight: "real problems.",
+
+    eyebrow: "Selected Work",
+
+    title: "Building products where",
+    highlight: "software meets intelligence.",
+
     description:
-      "A selection of full-stack products designed around clear user needs, reliable architecture, and practical business outcomes.",
-    actionLabel: "Explore all projects",
+      "Selected full-stack and AI-powered projects focused on practical problems, thoughtful architecture, and reliable user experiences.",
+
+    actionLabel: "Explore my projects",
     actionHref: "#all-projects",
   },
+
   projects: [
     {
-      id: "logixflow",
+      id: "movie-atlas",
+      image: "/projects/project1.png",
+      imageAlt: "Movie Atlas project interface",
       number: "01",
-      name: "LogixFlow",
-      eyebrow: "Featured product",
+      name: "Movie Atlas",
+
+      eyebrow: "Featured Full-Stack Project",
+
       description:
-        "A high-performance logistics platform optimizing global shipment routing and real-time fleet tracking.",
-      category: "Full-Stack SaaS",
-      capabilities: ["Product Strategy", "Frontend", "Backend"],
+        "A modern movie discovery platform designed around fast exploration, structured data, and a polished browsing experience.",
+
+      category: "Full-Stack Application",
+
+      capabilities: [
+        "Next.js",
+        "API Integration",
+        "Frontend Architecture",
+      ],
+
       actionLabel: "View case study",
-      href: "#logixflow",
+      href: "#movie-atlas",
+
       layout: "featured",
-      visual: "map",
     },
+
     {
-      id: "aether-cloud",
+      id: "simple-rag",
+      image: "/services/rag-systems-focused.webp",
+      imageAlt: "Simple RAG project interface",
       number: "02",
-      name: "Aether Cloud",
-      eyebrow: "Admin dashboard",
+      name: "Simple RAG",
+
+      eyebrow: "Applied AI System",
+
       description:
-        "Infrastructure management for distributed cloud nodes, resource allocation, and system health.",
-      category: "Cloud Infrastructure",
-      capabilities: ["System Architecture", "Dashboard Design"],
-      actionLabel: "View project",
-      href: "#aether-cloud",
+        "A retrieval-augmented generation system connecting LLMs with external knowledge to produce grounded, context-aware answers.",
+
+      category: "AI Engineering",
+
+      capabilities: [
+        "RAG Pipeline",
+        "Vector Search",
+        "LLM Integration",
+      ],
+
+      actionLabel: "Explore system",
+      href: "#simple-rag",
+
       layout: "tall",
-      visual: "cloud",
     },
+
     {
-      id: "analytix-ai",
+      id: "pinterest-mvp",
+      image: "/services/saas-product-focused.webp",
+      imageAlt: "Pinterest MVP project interface",
       number: "03",
-      name: "Analytix AI",
-      eyebrow: "AI-powered application",
+      name: "Pinterest MVP",
+
+      eyebrow: "Full-Stack Product",
+
       description:
-        "An automated data pipeline turning complex enterprise data into useful, predictive insights.",
-      category: "AI & Data Science",
-      capabilities: ["Workflow Engineering", "AI Integration"],
+        "A visual discovery platform with content feeds, reusable UI systems, user interactions, and full-stack application workflows.",
+
+      category: "Product Engineering",
+
+      capabilities: [
+        "React",
+        "Backend APIs",
+        "Database Design",
+      ],
+
       actionLabel: "View project",
-      href: "#analytix-ai",
+      href: "#pinterest-mvp",
+
       layout: "compact",
-      visual: "graph",
     },
+
     {
-      id: "coregraph",
+      id: "x-project",
+      image: "/projects/project4.png",
+      imageAlt: "X Project architecture interface",
       number: "04",
-      name: "CoreGraph",
-      eyebrow: "Backend system",
+      name: "X Project",
+
+      eyebrow: "System Architecture",
+
       description:
-        "Distributed microservices monitoring with automated traffic-flow analysis and health mapping.",
-      category: "Backend Architecture",
-      capabilities: ["API Design", "Network Visualization"],
-      actionLabel: "View project",
-      href: "#coregraph",
+        "A social platform implementation exploring authentication, content workflows, API design, and scalable application architecture.",
+
+      category: "Full-Stack Architecture",
+
+      capabilities: [
+        "API Design",
+        "Authentication",
+        "System Architecture",
+      ],
+
+      actionLabel: "Explore architecture",
+      href: "#x-project",
+
       layout: "wide",
-      visual: "network",
     },
   ] satisfies readonly Project[],
+
   footer: {
-    text: "Have a product challenge?",
+    text: "Have a product idea?",
     highlight: "Let's turn it into reliable software.",
     href: "#contact",
   },

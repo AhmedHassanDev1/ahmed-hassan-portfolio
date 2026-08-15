@@ -8,11 +8,6 @@ type ProjectAction = {
   icon: ProjectIcon;
 };
 
-type ProjectImage = {
-  src: string;
-  alt: string;
-};
-
 export type Project = {
   id: string;
   number: string;
@@ -23,7 +18,8 @@ export type Project = {
   category: string;
   capabilities: string[];
   technologies: string[];
-  image: ProjectImage;
+  image: string;
+  imageAlt: string;
   action: ProjectAction;
   featured: boolean;
   layout: ProjectLayout;

@@ -28,16 +28,16 @@ function HeroSection() {
       contained={false}
       className="portfolio-hero bg-background"
     >
-      <div className="flex min-h-svh flex-col bg-background lg:h-svh lg:min-h-0">
+      <div className="flex min-h-svh flex-col bg-background xl:h-svh xl:min-h-0">
         {/* Main visual */}
-        <div className="relative isolate min-h-[46rem] flex-1 overflow-hidden lg:min-h-0">
+        <div className="relative isolate min-h-[46rem] flex-1 overflow-hidden xl:min-h-0">
           <Image
             src={visual.src}
             alt={visual.alt}
             fill
             priority
             sizes="100vw"
-            className="object-cover object-[62%_center] lg:object-center"
+            className="object-cover object-[24%_center] sm:object-[32%_center] md:object-[32%_center] lg:object-center"
           />
 
           {/* Orange atmosphere */}
@@ -45,7 +45,7 @@ function HeroSection() {
             aria-hidden="true"
             className={cn(
               "absolute inset-0",
-              "bg-[linear-gradient(100deg,rgba(255,77,15,0.94)_0%,rgba(190,44,18,0.7)_34%,rgba(55,15,13,0.38)_68%,rgba(4,4,4,0.84)_100%)]",
+              "bg-[linear-gradient(100deg,rgba(255,77,15,0.92)_0%,rgba(185,45,18,0.66)_32%,rgba(74,19,14,0.34)_58%,rgba(8,8,8,0.74)_82%,rgba(2,2,2,0.94)_100%)]",
             )}
           />
 
@@ -57,11 +57,11 @@ function HeroSection() {
 
           <div
             aria-hidden="true"
-            className="absolute inset-0 bg-[radial-gradient(circle_at_54%_40%,transparent_0%,rgba(0,0,0,0.08)_35%,rgba(0,0,0,0.48)_100%)]"
+            className="absolute inset-0 bg-[radial-gradient(circle_at_54%_40%,transparent_0%,rgba(0,0,0,0.08)_35%,rgba(0,0,0,0.54)_100%)]"
           />
 
           {/* Content */}
-          <div className="relative z-10 flex min-h-[46rem] flex-col px-6 pb-8 pt-24 sm:px-10 lg:h-full lg:min-h-0 lg:px-14 lg:pb-8 lg:pt-28 xl:px-20">
+          <div className="relative z-10 flex min-h-[46rem] flex-col px-6 pb-8 pt-24 sm:px-10 lg:px-14 lg:pb-6 lg:pt-20 xl:h-full xl:min-h-0 xl:px-20 xl:pb-8 xl:pt-28">
             {/* Top information */}
             <div className="flex flex-wrap items-start justify-between gap-5">
               <div>
@@ -69,57 +69,55 @@ function HeroSection() {
                   {introduction}
                 </p>
 
-                <p className="mt-1 text-xs font-medium uppercase tracking-[0.16em] text-white/60">
+                <p className="mt-1 max-w-[19rem] break-words text-[0.68rem] font-medium uppercase leading-5 tracking-[0.11em] text-white/60 [overflow-wrap:anywhere] sm:max-w-none sm:text-xs sm:tracking-[0.16em]">
                   {role}
                 </p>
-              </div>
-
-              <div className="inline-flex items-center gap-2 border border-white/15 bg-black/15 px-4 py-2 text-xs font-medium text-white/80 backdrop-blur-md">
-                <span className="relative flex size-2">
-                  <span className="absolute size-full animate-ping rounded-full bg-primary opacity-70" />
-                  <span className="relative size-2 rounded-full bg-primary" />
-                </span>
-
-                {availability.label}
               </div>
             </div>
 
             {/* Editorial content */}
-            <div className="my-auto grid items-center gap-10 py-14 lg:grid-cols-[minmax(0,1.25fr)_minmax(18rem,0.55fr)] lg:gap-16 lg:py-6">
+            <div className="my-auto grid items-center gap-10 py-14 lg:grid-cols-[minmax(0,1.25fr)_minmax(18rem,0.55fr)] lg:gap-12 lg:py-4 xl:gap-16 xl:py-6">
               <div className="max-w-[54rem]">
-                <p className="mb-4 text-lg font-medium text-white/90">
-                  Hey, I&apos;m a
-                </p>
-
                 <h1
                   id="hero-heading"
                   aria-label="Full-Stack AI Product Developer"
                   className={cn(
-                    "text-[clamp(3.75rem,8vw,8.5rem)]",
+                    "text-[clamp(3.55rem,8vw,8.5rem)]",
                     "font-semibold leading-[0.82]",
                     "tracking-[-0.07em] text-white",
                   )}
                 >
                   <span className="block">Full-Stack</span>
                   <span className="block">AI Product</span>
-                  <span className="block text-white/55">Developer</span>
+                  <span className="block text-[rgba(255,255,255,0.48)]">
+                    Developer
+                  </span>
                 </h1>
               </div>
 
               <div className="max-w-md lg:justify-self-end">
-                <p className="text-2xl font-semibold leading-[1.05] tracking-[-0.035em] text-white md:text-3xl xl:text-4xl">
+                <p className="max-w-[24rem] text-[1.4rem] font-semibold leading-[1.12] tracking-[-0.025em] text-white md:text-[1.75rem] xl:text-[2.15rem]">
                   I build intelligent products that solve real business
                   problems.
                 </p>
 
-                <p className="mt-5 max-w-sm text-sm leading-6 text-white/60 md:text-base md:leading-7">
+                <p className="mt-6 max-w-[19.5rem] text-sm leading-6 text-white/60 sm:max-w-sm md:text-base md:leading-7">
                   {description}
                 </p>
+
+                <div className="mt-5 inline-flex max-w-full items-center gap-2 border border-white/15 bg-black/25 px-3.5 py-2 text-xs font-medium text-white/75 backdrop-blur-md">
+                  <span className="relative flex size-2 shrink-0">
+                    <span className="absolute size-full animate-ping rounded-full bg-primary opacity-60 motion-reduce:animate-none" />
+                    <span className="relative size-2 rounded-full bg-primary shadow-[0_0_12px_var(--brand-glow)]" />
+                  </span>
+
+                  <span>{availability.label}</span>
+                </div>
 
                 <Button
                   size="lg"
                   nativeButton={false}
-                  className="mt-7"
+                  className="mt-6"
                   render={<Link href={actions.secondary.href} />}
                 >
                   {actions.secondary.label}
@@ -137,6 +135,8 @@ function HeroSection() {
                   href={capability.href}
                   className={cn(
                     "group flex items-start justify-between gap-4",
+                    "outline-none transition-colors duration-300",
+                    "focus-visible:ring-2 focus-visible:ring-ring/30",
                     index > 0 && "sm:border-l sm:border-white/10 sm:pl-6",
                     index === 2 && "sm:border-l-0 sm:pl-0",
                     index === 2 && "lg:border-l lg:border-white/10 lg:pl-6",
@@ -169,8 +169,8 @@ function HeroSection() {
         </div>
 
         {/* Technology strip */}
-        <div className="shrink-0 border-t border-white/10 bg-[#0d0d0d] px-6 py-7 sm:px-10 lg:px-14 lg:py-6 xl:px-20">
-          <div className="grid gap-6 lg:grid-cols-[14rem_1fr] lg:items-center">
+        <div className="shrink-0 border-t border-white/10 bg-[#0d0d0d] px-6 py-5 sm:px-10 lg:px-14 lg:py-4 xl:px-20">
+          <div className="grid gap-4 lg:grid-cols-[14rem_1fr] lg:items-center">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">
                 {expertise.eyebrow}
@@ -183,7 +183,7 @@ function HeroSection() {
 
             <ul
               aria-label="Core technologies"
-              className="grid grid-cols-2 gap-x-6 gap-y-4 sm:grid-cols-4 xl:flex xl:justify-end xl:gap-10"
+              className="grid grid-cols-2 gap-x-5 gap-y-3 sm:grid-cols-4 xl:flex xl:justify-end xl:gap-8"
             >
               {expertise.technologies.map((technology) => (
                 <li

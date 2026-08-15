@@ -1,8 +1,19 @@
-import type { Project } from "@/content/projects-content";
+import type { Project, ProjectLayout } from "@/content/projects-content";
 import { projectsContent } from "@/content/projects-content";
 import { PointerRevealGroup } from "@/components/ui/pointer-reveal";
 import { SectionContainer } from "../section-container";
 import Image from "next/image";
+
+const projectImageSizes: Record<ProjectLayout, string> = {
+  featured:
+    "(max-width: 820px) calc(100vw - 1.3rem), (max-width: 1200px) calc(61vw - 1.7rem), 730px",
+  tall:
+    "(max-width: 820px) calc(100vw - 1.3rem), (max-width: 1200px) calc(31vw - 1.2rem), 350px",
+  compact:
+    "(max-width: 820px) calc(100vw - 1.3rem), (max-width: 1200px) calc(31vw - 1.2rem), 350px",
+  wide:
+    "(max-width: 820px) calc(100vw - 1.3rem), (max-width: 1200px) calc(34vw - 1.2rem), 410px",
+};
 
 function Arrow({ diagonal = false }: { diagonal?: boolean }) {
   return (
@@ -21,55 +32,22 @@ function Arrow({ diagonal = false }: { diagonal?: boolean }) {
   );
 }
 
-function ProjectVisual({ kind }: { kind: Project["visual"] }) {
+function ProjectVisual({ project }: { project: Project }) {
   return (
-    <div className={`project-visual visual-${kind}`} aria-hidden="true">
-      <div className="visual-toolbar">
+    <div className="project-visual">
+      <Image
+        src={project.image}
+        alt={project.imageAlt}
+        fill
+        sizes={projectImageSizes[project.layout]}
+        className="project-image"
+      />
+
+      <div className="visual-toolbar" aria-hidden="true">
         <span />
         <span />
         <span />
       </div>
-
-      {kind === "map" && (
-        <>
-          <div className="map-grid" />
-          <div className="route route-a" />
-          <div className="route route-b" />
-          <div className="metric metric-a">
-            <b>72%</b>
-            <small>efficiency</small>
-          </div>
-          <div className="metric metric-b">
-            <b>184</b>
-            <small>shipments</small>
-          </div>
-        </>
-      )}
-
-      {kind === "cloud" && (
-        <>
-          <div className="cloud-chart chart-one" />
-          <div className="cloud-chart chart-two" />
-          <div className="cloud-world" />
-          <div className="cloud-table" />
-        </>
-      )}
-
-      {kind === "graph" && (
-        <div className="graph-nodes">
-          {[0, 1, 2, 3, 4, 5, 6].map((node) => (
-            <i key={node} style={{ "--node": node } as React.CSSProperties} />
-          ))}
-        </div>
-      )}
-
-      {kind === "network" && (
-        <div className="network-nodes">
-          {[0, 1, 2, 3, 4, 5].map((node) => (
-            <i key={node} style={{ "--node": node } as React.CSSProperties} />
-          ))}
-        </div>
-      )}
     </div>
   );
 }
@@ -85,14 +63,14 @@ function ProjectCopy({ project }: { project: Project }) {
       <h3>{project.name}</h3>
       <p className="project-description">{project.description}</p>
 
-      <dl>
-        <div>
+      <dl >
+        <div className="text-sm">
           <dt>Category:</dt>
-          <dd>{project.category}</dd>
+          <dd >{project.category}</dd>
         </div>
-        <div>
-          <dt>Capability:</dt>
-          <dd>{project.capabilities.join(" / ")}</dd>
+        <div className="text-sm">
+          <dt >Capability:</dt>
+          <dd >{project.capabilities.join(" / ")}</dd>
         </div>
       </dl>
 
@@ -113,9 +91,9 @@ function ProjectCard({ project }: { project: Project }) {
       id={project.id}
       data-reveal-card
     >
-      {visualFirst && <ProjectVisual kind={project.visual} />}
+      {visualFirst && <ProjectVisual project={project} />}
       <ProjectCopy project={project} />
-      {!visualFirst && <ProjectVisual kind={project.visual} />}
+      {!visualFirst && <ProjectVisual project={project} />}
     </article>
   );
 }

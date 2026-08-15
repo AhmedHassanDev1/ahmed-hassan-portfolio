@@ -75,7 +75,7 @@ export const heroContent = {
 
   expertise: {
     eyebrow: "Core Stack",
-    description: "Technologies I use to build complete digital products.",
+    description: "Technologies behind the products I build.",
     technologies: [
       "TypeScript",
       "React",

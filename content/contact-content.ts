@@ -34,6 +34,8 @@ export const contactContent = {
         placeholder: "Enter your name",
         type: "text",
         autoComplete: "name",
+        minLength: 2,
+        maxLength: 100,
         required: true,
       },
       {
@@ -44,6 +46,7 @@ export const contactContent = {
         placeholder: "Enter your email",
         type: "email",
         autoComplete: "email",
+        maxLength: 254,
         required: true,
       },
       {
@@ -54,7 +57,8 @@ export const contactContent = {
         placeholder: "Describe your idea, goals, and what you need help with...",
         autoComplete: "off",
         rows: 5,
-        maxLength: 2000,
+        minLength: 10,
+        maxLength: 5000,
         required: true,
       },
     ],
