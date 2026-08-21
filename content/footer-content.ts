@@ -90,22 +90,18 @@ export const footerContent = {
     links: [
       {
         label: "GitHub",
-        href: "https://github.com/your-username",
+        href: "https://github.com/AhmedHassanDev1",
         icon: "github",
       },
       {
         label: "LinkedIn",
-        href: "https://www.linkedin.com/in/your-username",
+        href: "https://www.linkedin.com/in/ahmed-hassan-02a006235/",
         icon: "linkedin",
       },
-      {
-        label: "X (Twitter)",
-        href: "https://x.com/your-username",
-        icon: "x",
-      },
+      
       {
         label: "Email Me",
-        href: "mailto:hello@ahmedhassan.dev",
+        href: "mailto:Ahmedhassan.dev20@gmail.com",
         icon: "mail",
       },
     ],

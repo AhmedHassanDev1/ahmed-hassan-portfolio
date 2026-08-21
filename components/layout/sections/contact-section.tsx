@@ -2,7 +2,7 @@
 
 import { useRef, useState, type FormEvent } from "react";
 import Image from "next/image";
-import { ArrowUpRight, LockKeyhole } from "lucide-react";
+import { ArrowUpRight, Loader2, LockKeyhole } from "lucide-react";
 
 import { contactContent } from "@/content/contact-content";
 
@@ -26,31 +26,33 @@ function getFormValue(formData: FormData, key: string) {
   return typeof value === "string" ? value.trim() : "";
 }
 
-function getInvalidFields(formData: FormData) {
-  const invalidFields = new Set<ContactFieldName>();
+function validateContactFields(
+  formData: FormData,
+): Partial<Record<ContactFieldName, string>> {
+  const errors: Partial<Record<ContactFieldName, string>> = {};
   const name = getFormValue(formData, "name");
   const email = getFormValue(formData, "email");
   const message = getFormValue(formData, "message");
 
-  if (
-    name.length < FIELD_LIMITS.name.min ||
-    name.length > FIELD_LIMITS.name.max
-  ) {
-    invalidFields.add("name");
+  if (!name || name.length < FIELD_LIMITS.name.min) {
+    errors.name = "Please enter your name (at least 2 characters).";
+  } else if (name.length > FIELD_LIMITS.name.max) {
+    errors.name = "Name cannot exceed 100 characters.";
   }
 
-  if (email.length > FIELD_LIMITS.email.max || !EMAIL_PATTERN.test(email)) {
-    invalidFields.add("email");
+  if (!email || !EMAIL_PATTERN.test(email)) {
+    errors.email = "Please enter a valid email address.";
+  } else if (email.length > FIELD_LIMITS.email.max) {
+    errors.email = "Email cannot exceed 254 characters.";
   }
 
-  if (
-    message.length < FIELD_LIMITS.message.min ||
-    message.length > FIELD_LIMITS.message.max
-  ) {
-    invalidFields.add("message");
+  if (!message || message.length < FIELD_LIMITS.message.min) {
+    errors.message = "Please enter a message of at least 10 characters.";
+  } else if (message.length > FIELD_LIMITS.message.max) {
+    errors.message = "Message cannot exceed 5,000 characters.";
   }
 
-  return invalidFields;
+  return errors;
 }
 
 export function ContactSection() {
@@ -58,11 +60,26 @@ export function ContactSection() {
     contactContent;
   const [status, setStatus] = useState<ContactFormStatus>("idle");
   const [statusMessage, setStatusMessage] = useState("");
-  const [invalidFields, setInvalidFields] = useState<Set<ContactFieldName>>(
-    () => new Set(),
-  );
+  const [fieldErrors, setFieldErrors] = useState<
+    Partial<Record<ContactFieldName, string>>
+  >({});
   const isSubmittingRef = useRef(false);
   const isSubmitting = status === "submitting";
+
+  function handleFieldChange(fieldName: ContactFieldName) {
+    if (fieldErrors[fieldName]) {
+      setFieldErrors((prev) => {
+        const next = { ...prev };
+        delete next[fieldName];
+        return next;
+      });
+    }
+
+    if (status === "error") {
+      setStatus("idle");
+      setStatusMessage("");
+    }
+  }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -73,16 +90,27 @@ export function ContactSection() {
 
     const formElement = event.currentTarget;
     const formData = new FormData(formElement);
-    const nextInvalidFields = getInvalidFields(formData);
+    const errors = validateContactFields(formData);
+    const errorKeys = Object.keys(errors) as ContactFieldName[];
 
-    setInvalidFields(nextInvalidFields);
-
-    if (nextInvalidFields.size > 0) {
+    if (errorKeys.length > 0) {
+      setFieldErrors(errors);
       setStatus("error");
-      setStatusMessage("Please check your details and try again.");
+      setStatusMessage("Please check the highlighted fields above.");
+
+      const firstInvalidField = form.fields.find(
+        (f) => f.name === errorKeys[0],
+      );
+      if (firstInvalidField) {
+        const element = document.getElementById(firstInvalidField.id);
+        if (element) {
+          element.focus();
+        }
+      }
       return;
     }
 
+    setFieldErrors({});
     isSubmittingRef.current = true;
     setStatus("submitting");
     setStatusMessage("");
@@ -100,19 +128,31 @@ export function ContactSection() {
           website: getFormValue(formData, "website"),
         }),
       });
-      const result = (await response.json()) as ContactResponse;
 
-      if (!response.ok || !result.success) {
-        throw new Error(result.message ?? "Contact request failed.");
+      let result: ContactResponse | null = null;
+      try {
+        result = (await response.json()) as ContactResponse;
+      } catch {
+        // Handle non-JSON response gracefully
+      }
+
+      if (!response.ok || !result?.success) {
+        const errorMessage =
+          result?.message ?? "Unable to send message. Please try again.";
+        throw new Error(errorMessage);
       }
 
       formElement.reset();
-      setInvalidFields(new Set());
+      setFieldErrors({});
       setStatus("success");
-      setStatusMessage("Message sent successfully. I'll get back to you soon.");
-    } catch {
+      setStatusMessage("Message sent successfully! I'll get back to you soon.");
+    } catch (error) {
       setStatus("error");
-      setStatusMessage("Something went wrong. Please try again.");
+      setStatusMessage(
+        error instanceof Error && error.message
+          ? error.message
+          : "Something went wrong. Please try again or reach out directly.",
+      );
     } finally {
       isSubmittingRef.current = false;
     }
@@ -180,65 +220,96 @@ export function ContactSection() {
             </div>
 
             <div className="contact-fields">
-              {form.fields.map((field) => (
-                <div className="contact-field" key={field.id}>
-                  <label className="contact-label" htmlFor={field.id}>
-                    {field.label}
-                  </label>
+              {form.fields.map((field) => {
+                const hasError = Boolean(fieldErrors[field.name]);
+                const errorId = `${field.id}-error`;
 
-                  {field.kind === "textarea" ? (
-                    <textarea
-                      id={field.id}
-                      name={field.name}
-                      className="contact-textarea"
-                      placeholder={field.placeholder}
-                      autoComplete={field.autoComplete}
-                      rows={field.rows}
-                      minLength={field.minLength}
-                      maxLength={field.maxLength}
-                      required={field.required}
-                      aria-invalid={
-                        invalidFields.has(field.name) ? "true" : undefined
-                      }
-                    />
-                  ) : (
-                    <input
-                      id={field.id}
-                      name={field.name}
-                      type={field.type}
-                      className="contact-input"
-                      placeholder={field.placeholder}
-                      autoComplete={field.autoComplete}
-                      minLength={
-                        "minLength" in field ? field.minLength : undefined
-                      }
-                      maxLength={field.maxLength}
-                      required={field.required}
-                      aria-invalid={
-                        invalidFields.has(field.name) ? "true" : undefined
-                      }
-                    />
-                  )}
-                </div>
-              ))}
+                return (
+                  <div className="contact-field" key={field.id}>
+                    <label className="contact-label" htmlFor={field.id}>
+                      {field.label}
+                    </label>
+
+                    {field.kind === "textarea" ? (
+                      <textarea
+                        id={field.id}
+                        name={field.name}
+                        className="contact-textarea"
+                        placeholder={field.placeholder}
+                        autoComplete={field.autoComplete}
+                        rows={field.rows}
+                        minLength={field.minLength}
+                        maxLength={field.maxLength}
+                        required={field.required}
+                        aria-invalid={hasError ? "true" : undefined}
+                        aria-describedby={hasError ? errorId : undefined}
+                        onChange={() => handleFieldChange(field.name)}
+                        disabled={isSubmitting}
+                      />
+                    ) : (
+                      <input
+                        id={field.id}
+                        name={field.name}
+                        type={field.type}
+                        className="contact-input"
+                        placeholder={field.placeholder}
+                        autoComplete={field.autoComplete}
+                        minLength={
+                          "minLength" in field ? field.minLength : undefined
+                        }
+                        maxLength={field.maxLength}
+                        required={field.required}
+                        aria-invalid={hasError ? "true" : undefined}
+                        aria-describedby={hasError ? errorId : undefined}
+                        onChange={() => handleFieldChange(field.name)}
+                        disabled={isSubmitting}
+                      />
+                    )}
+
+                    {hasError && (
+                      <span
+                        id={errorId}
+                        className="contact-field-error"
+                        role="alert"
+                      >
+                        {fieldErrors[field.name]}
+                      </span>
+                    )}
+                  </div>
+                );
+              })}
             </div>
 
             <button
               type="submit"
               className="contact-submit"
               aria-label={form.submit.ariaLabel}
+              aria-busy={isSubmitting}
               disabled={isSubmitting}
             >
-              <span>{isSubmitting ? "Sending..." : form.submit.label}</span>
-              <ArrowUpRight
-                aria-hidden="true"
-                className="contact-submit-icon"
-              />
+              {isSubmitting ? (
+                <>
+                  <Loader2
+                    aria-hidden="true"
+                    className="contact-submit-spinner"
+                  />
+                  <span>Sending...</span>
+                </>
+              ) : (
+                <>
+                  <span>{form.submit.label}</span>
+                  <ArrowUpRight
+                    aria-hidden="true"
+                    className="contact-submit-icon"
+                  />
+                </>
+              )}
             </button>
 
             {statusMessage ? (
               <p
                 className={`contact-status contact-status--${status}`}
+                role={status === "error" ? "alert" : "status"}
                 aria-live="polite"
               >
                 {statusMessage}

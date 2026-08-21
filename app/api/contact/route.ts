@@ -132,9 +132,13 @@ export async function POST(request: Request) {
     );
   }
 
-  const gmailUser = process.env.GMAIL_USER;
-  const gmailAppPassword = process.env.GMAIL_APP_PASSWORD;
-  const contactEmail = process.env.CONTACT_EMAIL;
+  const rawUser = process.env.GMAIL_USER;
+  const rawPass = process.env.GMAIL_APP_PASSWORD;
+  const rawContactEmail = process.env.CONTACT_EMAIL;
+
+  const gmailUser = rawUser?.trim();
+  const gmailAppPassword = rawPass ? rawPass.replace(/\s+/g, "") : "";
+  const contactEmail = rawContactEmail?.trim();
 
   if (!gmailUser || !gmailAppPassword || !contactEmail) {
     console.error(
@@ -142,13 +146,23 @@ export async function POST(request: Request) {
     );
 
     return jsonResponse(
-      { success: false, message: "Unable to send message." },
+      {
+        success: false,
+        message: "Email service is not configured on the server.",
+      },
       500,
     );
   }
 
   const transporter = nodemailer.createTransport({
     service: "gmail",
+    ...(process.env.NODE_ENV === "development"
+      ? {
+          tls: {
+            rejectUnauthorized: false,
+          },
+        }
+      : {}),
     auth: {
       user: gmailUser,
       pass: gmailAppPassword,
@@ -169,7 +183,10 @@ export async function POST(request: Request) {
     console.error("Contact email failed:", error);
 
     return jsonResponse(
-      { success: false, message: "Unable to send message." },
+      {
+        success: false,
+        message: "Failed to send email. Please try again later or reach out directly.",
+      },
       502,
     );
   }

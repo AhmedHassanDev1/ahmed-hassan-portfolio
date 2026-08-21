@@ -47,6 +47,11 @@
     padding: 1rem;
   }
 
+  .contact-input,
+  .contact-textarea {
+    font-size: 1rem;
+  }
+
   .contact-textarea {
     min-height: 7.5rem;
   }
