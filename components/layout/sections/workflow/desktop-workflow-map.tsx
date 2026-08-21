@@ -1,4 +1,5 @@
 import type { WorkflowStage } from "@/content/workflow-content";
+import { WorkflowPipelineScene } from "@/components/visual/workflow/WorkflowPipelineScene";
 import { cn } from "@/lib/utils";
 
 const desktopStagePositions = [
@@ -40,12 +41,18 @@ export function DesktopWorkflowMap({
 
   return (
     <div
-      className="workflow-desktop-map"
+      className="workflow-desktop-map relative"
       aria-label="Desktop web product workflow map"
     >
-      <div className="workflow-map-frame">
+      <div className="workflow-map-frame relative">
+        {/* Dynamic Canvas Pipeline with Traveling Data Photons */}
+        <WorkflowPipelineScene
+          selectedIndex={selectedIndex}
+          previewedIndex={previewedIndex}
+        />
+
         <svg
-          className="workflow-path-svg"
+          className="workflow-path-svg relative z-[2]"
           viewBox="0 0 1000 340"
           preserveAspectRatio="none"
           aria-hidden="true"
@@ -91,7 +98,6 @@ export function DesktopWorkflowMap({
             );
           })}
         </svg>
-
       </div>
     </div>
   );

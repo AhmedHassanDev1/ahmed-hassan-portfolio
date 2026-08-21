@@ -11,6 +11,8 @@ import {
   StaggerItem,
   TextReveal,
 } from "@/components/motion";
+import { Hero3DCanvas } from "@/components/visual/hero/Hero3DCanvas";
+import { HeroHUDMarkers } from "@/components/visual/hero/HeroHUDMarkers";
 import { heroContent } from "@/content/hero-content";
 import { cn } from "@/lib/utils";
 
@@ -47,6 +49,9 @@ function HeroSection() {
             className="object-cover object-[24%_center] transition-transform duration-1000 ease-out sm:object-[32%_center] md:object-[32%_center] lg:object-center"
           />
 
+          {/* 3D WebGL Neural & Tensor Field */}
+          <Hero3DCanvas />
+
           {/* Orange atmosphere */}
           <div
             aria-hidden="true"
@@ -66,6 +71,9 @@ function HeroSection() {
             aria-hidden="true"
             className="absolute inset-0 bg-[radial-gradient(circle_at_54%_40%,transparent_0%,rgba(0,0,0,0.08)_35%,rgba(0,0,0,0.54)_100%)]"
           />
+
+          {/* Floating 3D Telemetry HUD */}
+          <HeroHUDMarkers />
 
           {/* Content */}
           <div className="relative z-10 flex min-h-[46rem] flex-col px-6 pb-8 pt-24 sm:px-10 lg:px-14 lg:pb-6 lg:pt-20 xl:h-full xl:min-h-0 xl:px-20 xl:pb-8 xl:pt-28">
