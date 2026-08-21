@@ -5,6 +5,7 @@ import { ArrowUpRight, Menu as MenuIcon, X } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { navLinks } from "@/content/portfolio-content";
+import { Reveal } from "@/components/motion";
 import styles from "./Navibar.module.css";
 
 function Navibar() {

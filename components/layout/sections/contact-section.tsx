@@ -5,6 +5,7 @@ import Image from "next/image";
 import { ArrowUpRight, Loader2, LockKeyhole } from "lucide-react";
 
 import { contactContent } from "@/content/contact-content";
+import { Magnetic, Reveal } from "@/components/motion";
 
 type ContactFormStatus = "idle" | "submitting" | "success" | "error";
 type ContactFieldName = "name" | "email" | "message";
@@ -178,149 +179,160 @@ export function ContactSection() {
         <div className="contact-overlay" aria-hidden="true" />
 
         <div className="contact-content">
-          <header className="contact-heading">
-            <p className="contact-eyebrow">
-              <span>{eyebrow.label}</span>
-              <span
-                aria-hidden="true"
-                className="contact-eyebrow-separator"
-              >
-                {eyebrow.separator}
-              </span>
-              <span className="contact-eyebrow-accent">
-                {eyebrow.accent}
-              </span>
-            </p>
-
-            <h2 id={`${sectionId}-title`} className="contact-title">
-              {title.primary}
-              <span className="contact-title-accent">{title.accent}</span>
-            </h2>
-
-            <p className="contact-description">{description}</p>
-          </header>
-
-          <form
-            className="contact-form"
-            action={form.action}
-            method={form.method}
-            onSubmit={handleSubmit}
-            noValidate
-          >
-            <input type="hidden" name="source" value={form.source} />
-            <div className="contact-honeypot" aria-hidden="true">
-              <label htmlFor="contact-website">Website</label>
-              <input
-                id="contact-website"
-                name="website"
-                type="text"
-                tabIndex={-1}
-                autoComplete="off"
-              />
-            </div>
-
-            <div className="contact-fields">
-              {form.fields.map((field) => {
-                const hasError = Boolean(fieldErrors[field.name]);
-                const errorId = `${field.id}-error`;
-
-                return (
-                  <div className="contact-field" key={field.id}>
-                    <label className="contact-label" htmlFor={field.id}>
-                      {field.label}
-                    </label>
-
-                    {field.kind === "textarea" ? (
-                      <textarea
-                        id={field.id}
-                        name={field.name}
-                        className="contact-textarea"
-                        placeholder={field.placeholder}
-                        autoComplete={field.autoComplete}
-                        rows={field.rows}
-                        minLength={field.minLength}
-                        maxLength={field.maxLength}
-                        required={field.required}
-                        aria-invalid={hasError ? "true" : undefined}
-                        aria-describedby={hasError ? errorId : undefined}
-                        onChange={() => handleFieldChange(field.name)}
-                        disabled={isSubmitting}
-                      />
-                    ) : (
-                      <input
-                        id={field.id}
-                        name={field.name}
-                        type={field.type}
-                        className="contact-input"
-                        placeholder={field.placeholder}
-                        autoComplete={field.autoComplete}
-                        minLength={
-                          "minLength" in field ? field.minLength : undefined
-                        }
-                        maxLength={field.maxLength}
-                        required={field.required}
-                        aria-invalid={hasError ? "true" : undefined}
-                        aria-describedby={hasError ? errorId : undefined}
-                        onChange={() => handleFieldChange(field.name)}
-                        disabled={isSubmitting}
-                      />
-                    )}
-
-                    {hasError && (
-                      <span
-                        id={errorId}
-                        className="contact-field-error"
-                        role="alert"
-                      >
-                        {fieldErrors[field.name]}
-                      </span>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-
-            <button
-              type="submit"
-              className="contact-submit"
-              aria-label={form.submit.ariaLabel}
-              aria-busy={isSubmitting}
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? (
-                <>
-                  <Loader2
-                    aria-hidden="true"
-                    className="contact-submit-spinner"
-                  />
-                  <span>Sending...</span>
-                </>
-              ) : (
-                <>
-                  <span>{form.submit.label}</span>
-                  <ArrowUpRight
-                    aria-hidden="true"
-                    className="contact-submit-icon"
-                  />
-                </>
-              )}
-            </button>
-
-            {statusMessage ? (
-              <p
-                className={`contact-status contact-status--${status}`}
-                role={status === "error" ? "alert" : "status"}
-                aria-live="polite"
-              >
-                {statusMessage}
+          <Reveal variant="fade-up" duration={480} className="contact-heading">
+            <header>
+              <p className="contact-eyebrow">
+                <span>{eyebrow.label}</span>
+                <span
+                  aria-hidden="true"
+                  className="contact-eyebrow-separator"
+                >
+                  {eyebrow.separator}
+                </span>
+                <span className="contact-eyebrow-accent">
+                  {eyebrow.accent}
+                </span>
               </p>
-            ) : null}
 
-            <p className="contact-note">
-              <LockKeyhole aria-hidden="true" className="contact-note-icon" />
-              <span>{form.note}</span>
-            </p>
-          </form>
+              <h2 id={`${sectionId}-title`} className="contact-title">
+                {title.primary}
+                <span className="contact-title-accent">{title.accent}</span>
+              </h2>
+
+              <p className="contact-description">{description}</p>
+            </header>
+          </Reveal>
+
+          <Reveal
+            variant="reveal"
+            delay={80}
+            duration={550}
+            className="w-full max-w-[39rem]"
+          >
+            <form
+              className="contact-form"
+              action={form.action}
+              method={form.method}
+              onSubmit={handleSubmit}
+              noValidate
+            >
+              <input type="hidden" name="source" value={form.source} />
+              <div className="contact-honeypot" aria-hidden="true">
+                <label htmlFor="contact-website">Website</label>
+                <input
+                  id="contact-website"
+                  name="website"
+                  type="text"
+                  tabIndex={-1}
+                  autoComplete="off"
+                />
+              </div>
+
+              <div className="contact-fields">
+                {form.fields.map((field) => {
+                  const hasError = Boolean(fieldErrors[field.name]);
+                  const errorId = `${field.id}-error`;
+
+                  return (
+                    <div className="contact-field" key={field.id}>
+                      <label className="contact-label" htmlFor={field.id}>
+                        {field.label}
+                      </label>
+
+                      {field.kind === "textarea" ? (
+                        <textarea
+                          id={field.id}
+                          name={field.name}
+                          className="contact-textarea"
+                          placeholder={field.placeholder}
+                          autoComplete={field.autoComplete}
+                          rows={field.rows}
+                          minLength={field.minLength}
+                          maxLength={field.maxLength}
+                          required={field.required}
+                          aria-invalid={hasError ? "true" : undefined}
+                          aria-describedby={hasError ? errorId : undefined}
+                          onChange={() => handleFieldChange(field.name)}
+                          disabled={isSubmitting}
+                        />
+                      ) : (
+                        <input
+                          id={field.id}
+                          name={field.name}
+                          type={field.type}
+                          className="contact-input"
+                          placeholder={field.placeholder}
+                          autoComplete={field.autoComplete}
+                          minLength={
+                            "minLength" in field ? field.minLength : undefined
+                          }
+                          maxLength={field.maxLength}
+                          required={field.required}
+                          aria-invalid={hasError ? "true" : undefined}
+                          aria-describedby={hasError ? errorId : undefined}
+                          onChange={() => handleFieldChange(field.name)}
+                          disabled={isSubmitting}
+                        />
+                      )}
+
+                      {hasError && (
+                        <span
+                          id={errorId}
+                          className="contact-field-error"
+                          role="alert"
+                        >
+                          {fieldErrors[field.name]}
+                        </span>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+
+              <Magnetic maxDisplacement={6} className="w-full">
+                <button
+                  type="submit"
+                  className="contact-submit"
+                  aria-label={form.submit.ariaLabel}
+                  aria-busy={isSubmitting}
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? (
+                    <>
+                      <Loader2
+                        aria-hidden="true"
+                        className="contact-submit-spinner"
+                      />
+                      <span>Sending...</span>
+                    </>
+                  ) : (
+                    <>
+                      <span>{form.submit.label}</span>
+                      <ArrowUpRight
+                        aria-hidden="true"
+                        className="contact-submit-icon motion-arrow-icon"
+                      />
+                    </>
+                  )}
+                </button>
+              </Magnetic>
+
+              {statusMessage ? (
+                <p
+                  className={`contact-status contact-status--${status}`}
+                  role={status === "error" ? "alert" : "status"}
+                  aria-live="polite"
+                >
+                  {statusMessage}
+                </p>
+              ) : null}
+
+              <p className="contact-note">
+                <LockKeyhole aria-hidden="true" className="contact-note-icon" />
+                <span>{form.note}</span>
+              </p>
+            </form>
+          </Reveal>
         </div>
       </div>
     </section>

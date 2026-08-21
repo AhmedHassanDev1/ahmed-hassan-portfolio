@@ -156,13 +156,9 @@ export async function POST(request: Request) {
 
   const transporter = nodemailer.createTransport({
     service: "gmail",
-    ...(process.env.NODE_ENV === "development"
-      ? {
-          tls: {
-            rejectUnauthorized: false,
-          },
-        }
-      : {}),
+    tls: {
+      rejectUnauthorized: false,
+    },
     auth: {
       user: gmailUser,
       pass: gmailAppPassword,

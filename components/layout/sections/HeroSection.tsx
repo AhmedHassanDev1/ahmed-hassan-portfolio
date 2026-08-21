@@ -4,6 +4,13 @@ import { ArrowUpRight } from "lucide-react";
 
 import { SectionContainer } from "@/components/layout/section-container";
 import { Button } from "@/components/ui/button";
+import {
+  Magnetic,
+  Reveal,
+  Stagger,
+  StaggerItem,
+  TextReveal,
+} from "@/components/motion";
 import { heroContent } from "@/content/hero-content";
 import { cn } from "@/lib/utils";
 
@@ -37,14 +44,14 @@ function HeroSection() {
             fill
             priority
             sizes="100vw"
-            className="object-cover object-[24%_center] sm:object-[32%_center] md:object-[32%_center] lg:object-center"
+            className="object-cover object-[24%_center] transition-transform duration-1000 ease-out sm:object-[32%_center] md:object-[32%_center] lg:object-center"
           />
 
           {/* Orange atmosphere */}
           <div
             aria-hidden="true"
             className={cn(
-              "absolute inset-0",
+              "absolute inset-0 motion-ambient-glow",
               "bg-[linear-gradient(100deg,rgba(255,77,15,0.92)_0%,rgba(185,45,18,0.66)_32%,rgba(74,19,14,0.34)_58%,rgba(8,8,8,0.74)_82%,rgba(2,2,2,0.94)_100%)]",
             )}
           />
@@ -64,15 +71,17 @@ function HeroSection() {
           <div className="relative z-10 flex min-h-[46rem] flex-col px-6 pb-8 pt-24 sm:px-10 lg:px-14 lg:pb-6 lg:pt-20 xl:h-full xl:min-h-0 xl:px-20 xl:pb-8 xl:pt-28">
             {/* Top information */}
             <div className="flex flex-wrap items-start justify-between gap-5">
-              <div>
-                <p className="text-sm font-semibold text-white">
-                  {introduction}
-                </p>
+              <Reveal variant="fade-down" delay={60} duration={450}>
+                <div>
+                  <p className="text-sm font-semibold text-white">
+                    {introduction}
+                  </p>
 
-                <p className="mt-1 max-w-[19rem] break-words text-[0.68rem] font-medium uppercase leading-5 tracking-[0.11em] text-white/60 [overflow-wrap:anywhere] sm:max-w-none sm:text-xs sm:tracking-[0.16em]">
-                  {role}
-                </p>
-              </div>
+                  <p className="mt-1 max-w-[19rem] break-words text-[0.68rem] font-medium uppercase leading-5 tracking-[0.11em] text-white/60 [overflow-wrap:anywhere] sm:max-w-none sm:text-xs sm:tracking-[0.16em]">
+                    {role}
+                  </p>
+                </div>
+              </Reveal>
             </div>
 
             {/* Editorial content */}
@@ -87,89 +96,125 @@ function HeroSection() {
                     "tracking-[-0.07em] text-white",
                   )}
                 >
-                  <span className="block">Full-Stack</span>
-                  <span className="block">AI Product</span>
-                  <span className="block text-[rgba(255,255,255,0.48)]">
+                  <TextReveal
+                    as="span"
+                    delay={120}
+                    stagger={80}
+                    duration={600}
+                    lines={["Full-Stack", "AI Product"]}
+                  />
+                  <TextReveal
+                    as="span"
+                    delay={280}
+                    duration={600}
+                    className="text-[rgba(255,255,255,0.48)]"
+                  >
                     Developer
-                  </span>
+                  </TextReveal>
                 </h1>
               </div>
 
               <div className="max-w-md lg:justify-self-end">
-                <p className="max-w-[24rem] text-[1.4rem] font-semibold leading-[1.12] tracking-[-0.025em] text-white md:text-[1.75rem] xl:text-[2.15rem]">
-                  I build intelligent products that solve real business
-                  problems.
-                </p>
+                <Reveal variant="fade-up" delay={260} duration={550}>
+                  <p className="max-w-[24rem] text-[1.4rem] font-semibold leading-[1.12] tracking-[-0.025em] text-white md:text-[1.75rem] xl:text-[2.15rem]">
+                    I build intelligent products that solve real business
+                    problems.
+                  </p>
+                </Reveal>
 
-                <p className="mt-6 max-w-[19.5rem] text-sm leading-6 text-white/60 sm:max-w-sm md:text-base md:leading-7">
-                  {description}
-                </p>
+                <Reveal variant="fade-up" delay={320} duration={550}>
+                  <p className="mt-6 max-w-[19.5rem] text-sm leading-6 text-white/60 sm:max-w-sm md:text-base md:leading-7">
+                    {description}
+                  </p>
+                </Reveal>
 
-                <div className="mt-5 inline-flex max-w-full items-center gap-2 border border-white/15 bg-black/25 px-3.5 py-2 text-xs font-medium text-white/75 backdrop-blur-md">
-                  <span className="relative flex size-2 shrink-0">
-                    <span className="absolute size-full animate-ping rounded-full bg-primary opacity-60 motion-reduce:animate-none" />
-                    <span className="relative size-2 rounded-full bg-primary shadow-[0_0_12px_var(--brand-glow)]" />
-                  </span>
+                <Reveal variant="fade-up" delay={380} duration={500}>
+                  <div className="mt-5 inline-flex max-w-full items-center gap-2 border border-white/15 bg-black/25 px-3.5 py-2 text-xs font-medium text-white/75 backdrop-blur-md">
+                    <span className="relative flex size-2 shrink-0">
+                      <span className="absolute size-full motion-radar-ping rounded-full bg-primary opacity-60" />
+                      <span className="relative size-2 rounded-full bg-primary shadow-[0_0_12px_var(--brand-glow)]" />
+                    </span>
 
-                  <span>{availability.label}</span>
-                </div>
+                    <span>{availability.label}</span>
+                  </div>
+                </Reveal>
 
-                <Button
-                  size="lg"
-                  nativeButton={false}
-                  className="mt-6"
-                  render={<Link href={actions.secondary.href} />}
-                >
-                  {actions.secondary.label}
+                <Reveal variant="fade-up" delay={440} duration={500}>
+                  <div className="mt-6">
+                    <Magnetic maxDisplacement={7}>
+                      <Button
+                        size="lg"
+                        nativeButton={false}
+                        render={<Link href={actions.secondary.href} />}
+                      >
+                        {actions.secondary.label}
 
-                  <ArrowUpRight data-icon="inline-end" aria-hidden="true" />
-                </Button>
+                        <ArrowUpRight
+                          data-icon="inline-end"
+                          aria-hidden="true"
+                          className="motion-arrow-icon"
+                        />
+                      </Button>
+                    </Magnetic>
+                  </div>
+                </Reveal>
               </div>
             </div>
 
             {/* Capabilities */}
-            <div className="grid shrink-0 gap-x-7 gap-y-5 border-t border-white/15 pt-6 sm:grid-cols-2 lg:grid-cols-4">
+            <Stagger
+              step={70}
+              initialDelay={480}
+              variant="fade-up"
+              className="grid shrink-0 gap-x-7 gap-y-5 border-t border-white/15 pt-6 sm:grid-cols-2 lg:grid-cols-4"
+            >
               {capabilities.map((capability, index) => (
-                <Link
+                <StaggerItem
                   key={capability.number}
-                  href={capability.href}
+                  index={index}
+                  as="div"
                   className={cn(
-                    "group flex items-start justify-between gap-4",
-                    "outline-none transition-colors duration-300",
-                    "focus-visible:ring-2 focus-visible:ring-ring/30",
                     index > 0 && "sm:border-l sm:border-white/10 sm:pl-6",
                     index === 2 && "sm:border-l-0 sm:pl-0",
                     index === 2 && "lg:border-l lg:border-white/10 lg:pl-6",
                   )}
                 >
-                  <div>
-                    <span className="text-xs font-semibold text-primary">
-                      / {capability.number}
-                    </span>
+                  <Link
+                    href={capability.href}
+                    className="group flex items-start justify-between gap-4 outline-none transition-colors duration-300 focus-visible:ring-2 focus-visible:ring-ring/30"
+                  >
+                    <div>
+                      <span className="text-xs font-semibold text-primary">
+                        / {capability.number}
+                      </span>
 
-                    <h2 className="mt-2 text-sm font-medium text-white/75 transition-colors duration-300 group-hover:text-white">
-                      {capability.title}
-                    </h2>
-                  </div>
+                      <h2 className="mt-2 text-sm font-medium text-white/75 transition-colors duration-300 group-hover:text-white">
+                        {capability.title}
+                      </h2>
+                    </div>
 
-                  <ArrowUpRight
-                    aria-hidden="true"
-                    className={cn(
-                      "mt-1 size-4 shrink-0 text-white/35",
-                      "transition-all duration-300",
-                      "group-hover:-translate-y-0.5",
-                      "group-hover:translate-x-0.5",
-                      "group-hover:text-primary",
-                    )}
-                  />
-                </Link>
+                    <ArrowUpRight
+                      aria-hidden="true"
+                      className={cn(
+                        "mt-1 size-4 shrink-0 text-white/35",
+                        "transition-all duration-300 motion-arrow-icon",
+                        "group-hover:text-primary",
+                      )}
+                    />
+                  </Link>
+                </StaggerItem>
               ))}
-            </div>
+            </Stagger>
           </div>
         </div>
 
         {/* Technology strip */}
-        <div className="shrink-0 border-t border-white/10 bg-[#0d0d0d] px-6 py-5 sm:px-10 lg:px-14 lg:py-4 xl:px-20">
+        <Reveal
+          variant="fade-up"
+          delay={560}
+          duration={550}
+          className="shrink-0 border-t border-white/10 bg-[#0d0d0d] px-6 py-5 sm:px-10 lg:px-14 lg:py-4 xl:px-20"
+        >
           <div className="grid gap-4 lg:grid-cols-[14rem_1fr] lg:items-center">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">
@@ -188,7 +233,7 @@ function HeroSection() {
               {expertise.technologies.map((technology) => (
                 <li
                   key={technology}
-                  className="flex items-center gap-2 whitespace-nowrap text-sm font-semibold text-white/65 transition-colors hover:text-white"
+                  className="flex items-center gap-2 whitespace-nowrap text-sm font-semibold text-white/65 transition-colors duration-200 hover:text-white"
                 >
                   <span
                     aria-hidden="true"
@@ -200,7 +245,7 @@ function HeroSection() {
               ))}
             </ul>
           </div>
-        </div>
+        </Reveal>
       </div>
     </SectionContainer>
   );

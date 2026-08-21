@@ -1,6 +1,7 @@
 import type { Project, ProjectLayout } from "@/content/projects-content";
 import { projectsContent } from "@/content/projects-content";
 import { PointerRevealGroup } from "@/components/ui/pointer-reveal";
+import { Reveal, Stagger, StaggerItem } from "@/components/motion";
 import { SectionContainer } from "../section-container";
 import Image from "next/image";
 
@@ -19,7 +20,7 @@ function Arrow({ diagonal = false }: { diagonal?: boolean }) {
   return (
     <svg
       aria-hidden="true"
-      className="arrow-icon"
+      className="arrow-icon motion-arrow-icon"
       viewBox="0 0 16 16"
       fill="none"
     >
@@ -40,7 +41,7 @@ function ProjectVisual({ project }: { project: Project }) {
         alt={project.imageAlt}
         fill
         sizes={projectImageSizes[project.layout]}
-        className="project-image"
+        className="project-image interactive-image-zoom"
       />
 
       <div className="visual-toolbar" aria-hidden="true">
@@ -63,18 +64,18 @@ function ProjectCopy({ project }: { project: Project }) {
       <h3>{project.name}</h3>
       <p className="project-description">{project.description}</p>
 
-      <dl >
+      <dl>
         <div className="text-sm">
           <dt>Category:</dt>
-          <dd >{project.category}</dd>
+          <dd>{project.category}</dd>
         </div>
         <div className="text-sm">
-          <dt >Capability:</dt>
-          <dd >{project.capabilities.join(" / ")}</dd>
+          <dt>Capability:</dt>
+          <dd>{project.capabilities.join(" / ")}</dd>
         </div>
       </dl>
 
-      <a className="project-link" href={project.href}>
+      <a className="project-link group" href={project.href}>
         {project.actionLabel}
         <Arrow diagonal />
       </a>
@@ -82,19 +83,29 @@ function ProjectCopy({ project }: { project: Project }) {
   );
 }
 
-function ProjectCard({ project }: { project: Project }) {
+function ProjectCard({
+  project,
+  index,
+}: {
+  project: Project;
+  index: number;
+}) {
   const visualFirst = project.layout === "compact";
 
   return (
-    <article
-      className={`project-card project-${project.layout}`}
+    <Reveal
+      as="article"
+      variant="fade-up"
+      delay={(index % 3) * 90}
+      duration={500}
+      className={`project-card project-${project.layout} interactive-card-motion`}
       id={project.id}
       data-reveal-card
     >
       {visualFirst && <ProjectVisual project={project} />}
       <ProjectCopy project={project} />
       {!visualFirst && <ProjectVisual project={project} />}
-    </article>
+    </Reveal>
   );
 }
 
@@ -111,39 +122,43 @@ export function ProjectsSection() {
       className="projects-section"
     >
       <div className="section-shell projects-shell">
-        <header className="projects-header">
-          <Image
-            src={header.image}
-            alt=""
-            fill
-            sizes="(max-width: 820px) 100vw, 1120px"
-            className="object-cover object-center"
-          />
-          <div className="projects-header-content">
-            <span className="eyebrow">{header.eyebrow}</span>
-            <h2 id="projects-heading">
-              {header.title}
-              <em>{header.highlight}</em>
-            </h2>
-            <p>{header.description}</p>
-            <a href={header.actionHref} className="header-link">
-              {header.actionLabel}
-              <Arrow />
-            </a>
-          </div>
-        </header>
+        <Reveal variant="fade-up" duration={500}>
+          <header className="projects-header">
+            <Image
+              src={header.image}
+              alt=""
+              fill
+              sizes="(max-width: 820px) 100vw, 1120px"
+              className="object-cover object-center"
+            />
+            <div className="projects-header-content">
+              <span className="eyebrow">{header.eyebrow}</span>
+              <h2 id="projects-heading">
+                {header.title}
+                <em>{header.highlight}</em>
+              </h2>
+              <p>{header.description}</p>
+              <a href={header.actionHref} className="header-link group">
+                {header.actionLabel}
+                <Arrow />
+              </a>
+            </div>
+          </header>
+        </Reveal>
 
         <PointerRevealGroup className="projects-grid" id="all-projects">
-          {projects.map((project) => (
-            <ProjectCard key={project.id} project={project} />
+          {projects.map((project, index) => (
+            <ProjectCard key={project.id} project={project} index={index} />
           ))}
         </PointerRevealGroup>
 
-        <a className="projects-footer" href={footer.href}>
-          <span>{footer.text}</span>
-          <strong>{footer.highlight}</strong>
-          <Arrow />
-        </a>
+        <Reveal variant="fade-up" delay={80} duration={450}>
+          <a className="projects-footer group" href={footer.href}>
+            <span>{footer.text}</span>
+            <strong>{footer.highlight}</strong>
+            <Arrow />
+          </a>
+        </Reveal>
       </div>
     </SectionContainer>
   );

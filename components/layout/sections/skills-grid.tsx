@@ -4,6 +4,7 @@ import type { CSSProperties } from "react";
 
 import { GlassPanel } from "@/components/ui/GlassPanel";
 import { PointerRevealGroup } from "@/components/ui/pointer-reveal";
+import { Reveal } from "@/components/motion";
 import { skillsContent, type Technology } from "@/content/portfolio-content";
 import { cn } from "@/lib/utils";
 
@@ -17,7 +18,7 @@ function TechnologyChip({ technology }: { technology: Technology }) {
   return (
     <li
       className={cn(
-        "technology-chip",
+        "technology-chip transition-all duration-200 hover:-translate-y-0.5",
         technology.type === "brand"
           ? "technology-chip-brand"
           : "technology-chip-generic",
@@ -26,7 +27,7 @@ function TechnologyChip({ technology }: { technology: Technology }) {
     >
       <Icon
         aria-hidden={true}
-        className="technology-chip-icon"
+        className="technology-chip-icon transition-transform duration-200 group-hover:scale-110"
         focusable={false}
       />
       <span>{technology.label}</span>
@@ -37,32 +38,41 @@ function TechnologyChip({ technology }: { technology: Technology }) {
 export function SkillsGrid() {
   return (
     <PointerRevealGroup className="system-grid" aria-label="Skill groups">
-      {skillsContent.groups.map((group) => {
+      {skillsContent.groups.map((group, index) => {
         const Icon = group.icon;
 
         return (
-          <GlassPanel
+          <Reveal
             key={group.title}
-            radius="card"
-            interactive
-            className="system-card"
-            data-reveal-card
+            as="div"
+            variant="fade-up"
+            delay={(index % 4) * 80}
+            duration={500}
+            className="h-full"
           >
-            <div className="card-icon" aria-hidden="true">
-              <Icon />
-            </div>
-            <h3>{group.title}</h3>
-            <ul className="tag-list">
-              {group.items.map((technology) => (
-                <TechnologyChip
-                  key={technology.label}
-                  technology={technology}
-                />
-              ))}
-            </ul>
-          </GlassPanel>
+            <GlassPanel
+              radius="card"
+              interactive
+              className="system-card h-full interactive-card-motion"
+              data-reveal-card
+            >
+              <div className="card-icon" aria-hidden="true">
+                <Icon />
+              </div>
+              <h3>{group.title}</h3>
+              <ul className="tag-list">
+                {group.items.map((technology) => (
+                  <TechnologyChip
+                    key={technology.label}
+                    technology={technology}
+                  />
+                ))}
+              </ul>
+            </GlassPanel>
+          </Reveal>
         );
       })}
     </PointerRevealGroup>
   );
 }
+

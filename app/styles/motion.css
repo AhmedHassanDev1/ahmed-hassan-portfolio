@@ -1,0 +1,228 @@
+/* ==========================================================================
+   Motion System — Centralized GPU-Accelerated Animation Styles
+   ========================================================================== */
+
+:root {
+  --motion-ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+  --motion-ease-standard: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --motion-ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --motion-ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+
+  --motion-duration-fast: 200ms;
+  --motion-duration-normal: 450ms;
+  --motion-duration-medium: 650ms;
+  --motion-duration-slow: 850ms;
+
+  --motion-stagger-small: 60ms;
+  --motion-stagger-normal: 90ms;
+  --motion-stagger-large: 120ms;
+}
+
+/* --------------------------------------------------------------------------
+   Reveal Base & Variants
+   -------------------------------------------------------------------------- */
+
+.motion-reveal {
+  will-change: opacity, transform;
+  transition-property: opacity, transform;
+  transition-timing-function: var(--motion-ease-smooth);
+  transition-duration: var(--reveal-duration, 500ms);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+/* Fade Up (Default) */
+[data-reveal="fade-up"][data-revealed="false"] {
+  opacity: 0;
+  transform: translate3d(0, var(--reveal-distance, 20px), 0);
+}
+
+/* Fade Down */
+[data-reveal="fade-down"][data-revealed="false"] {
+  opacity: 0;
+  transform: translate3d(0, calc(-1 * var(--reveal-distance, 20px)), 0);
+}
+
+/* Fade Left (Coming from right) */
+[data-reveal="fade-left"][data-revealed="false"] {
+  opacity: 0;
+  transform: translate3d(var(--reveal-distance, 20px), 0, 0);
+}
+
+/* Fade Right (Coming from left) */
+[data-reveal="fade-right"][data-revealed="false"] {
+  opacity: 0;
+  transform: translate3d(calc(-1 * var(--reveal-distance, 20px)), 0, 0);
+}
+
+/* Pure Fade */
+[data-reveal="fade"][data-revealed="false"] {
+  opacity: 0;
+  transform: none;
+}
+
+/* Scale & Fade */
+[data-reveal="scale"][data-revealed="false"] {
+  opacity: 0;
+  transform: scale(0.96);
+}
+
+/* Reveal (Fade + Scale + Lift) */
+[data-reveal="reveal"][data-revealed="false"] {
+  opacity: 0;
+  transform: translate3d(0, 16px, 0) scale(0.98);
+}
+
+/* Revealed State (Active) */
+.motion-reveal[data-revealed="true"] {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
+/* --------------------------------------------------------------------------
+   Text Reveal (Line-by-Line / Word-by-Word)
+   -------------------------------------------------------------------------- */
+
+.motion-text-reveal {
+  display: block;
+}
+
+.motion-text-line-wrapper {
+  display: block;
+  overflow: hidden;
+  line-height: inherit;
+}
+
+.motion-text-line {
+  display: inline-block;
+  will-change: opacity, transform;
+  transition-property: opacity, transform;
+  transition-timing-function: var(--motion-ease-smooth);
+  transition-duration: var(--reveal-duration, 600ms);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.motion-text-line[data-revealed="false"] {
+  opacity: 0;
+  transform: translate3d(0, 100%, 0);
+}
+
+.motion-text-line[data-revealed="true"] {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* --------------------------------------------------------------------------
+   Interactive Micro-Transitions (Cards, Buttons, Badges)
+   -------------------------------------------------------------------------- */
+
+/* Interactive card elevation */
+.interactive-card-motion {
+  transition:
+    transform var(--motion-duration-normal) var(--motion-ease-smooth),
+    border-color var(--motion-duration-fast) var(--motion-ease-standard),
+    box-shadow var(--motion-duration-normal) var(--motion-ease-smooth);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .interactive-card-motion:hover {
+    transform: translate3d(0, -3px, 0);
+  }
+}
+
+/* Subtle image scale on card hover */
+.interactive-image-zoom {
+  transition: transform 600ms var(--motion-ease-smooth);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  [data-reveal-card]:hover .interactive-image-zoom,
+  .service-card:hover .service-card-image,
+  .project-card:hover .project-image {
+    transform: scale(1.025);
+  }
+}
+
+/* Subtle arrow icon movement on parent hover */
+.motion-arrow-icon {
+  transition: transform var(--motion-duration-fast) var(--motion-ease-smooth);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  a:hover .motion-arrow-icon,
+  button:hover .motion-arrow-icon,
+  .group:hover .motion-arrow-icon {
+    transform: translate3d(2px, -2px, 0);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Subtle Ambient Background Animations (Restrained & GPU Composited)
+   -------------------------------------------------------------------------- */
+
+@keyframes motion-ambient-pulse {
+  0%, 100% {
+    opacity: 0.85;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.03);
+  }
+}
+
+.motion-ambient-glow {
+  animation: motion-ambient-pulse 8s ease-in-out infinite;
+  will-change: opacity, transform;
+}
+
+@keyframes motion-radar-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  70% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+.motion-radar-ping {
+  animation: motion-radar-pulse 2.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+/* --------------------------------------------------------------------------
+   Accessibility: Prefers-Reduced-Motion Override
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .motion-reveal,
+  [data-reveal][data-revealed="false"],
+  .motion-text-line[data-revealed="false"] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .motion-magnetic-wrapper,
+  .motion-parallax-wrapper {
+    transform: none !important;
+  }
+
+  .motion-ambient-glow,
+  .motion-radar-ping {
+    animation: none !important;
+  }
+}

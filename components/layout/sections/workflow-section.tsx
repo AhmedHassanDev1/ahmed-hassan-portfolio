@@ -6,6 +6,7 @@ import {
   getWorkflowStageIndex,
   workflowContent,
 } from "@/content/workflow-content";
+import { Reveal } from "@/components/motion";
 import { SectionContainer } from "../section-container";
 import {
   DesktopWorkflowMap,
@@ -109,19 +110,24 @@ export function WorkflowSection() {
       contained={false}
       className="workflow-section"
     >
-      <div className="workflow-glow" aria-hidden="true" />
+      <div className="workflow-glow motion-ambient-glow" aria-hidden="true" />
 
       <div className="section-shell workflow-shell">
-        <div className="workflow-copy">
+        <Reveal variant="fade-up" duration={480} className="workflow-copy">
           <span className="section-eyebrow">{eyebrow}</span>
           <h2 id="workflow-heading" className="section-title">
             {title.lineOne}
             <em>{title.highlight}</em>
           </h2>
           <p className="section-description">{description}</p>
-        </div>
+        </Reveal>
 
-        <div className="workflow-board">
+        <Reveal
+          variant="fade-up"
+          delay={80}
+          duration={550}
+          className="workflow-board"
+        >
           <div className="workflow-map">
             <DesktopWorkflowMap
               stages={stages}
@@ -165,16 +171,18 @@ export function WorkflowSection() {
             canPrevious={selectedIndex > 0}
             canNext={selectedIndex < stages.length - 1}
           />
-        </div>
+        </Reveal>
 
-        <dl className="workflow-proof">
-          {proof.map((item) => (
-            <div key={item.label}>
-              <dt>{item.value}</dt>
-              <dd>{item.label}</dd>
-            </div>
-          ))}
-        </dl>
+        <Reveal variant="fade-up" delay={120} duration={500}>
+          <dl className="workflow-proof">
+            {proof.map((item) => (
+              <div key={item.label}>
+                <dt>{item.value}</dt>
+                <dd>{item.label}</dd>
+              </div>
+            ))}
+          </dl>
+        </Reveal>
       </div>
     </SectionContainer>
   );

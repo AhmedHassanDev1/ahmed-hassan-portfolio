@@ -5,6 +5,7 @@ import Image from "next/image";
 
 import { GlassPanel } from "@/components/ui/GlassPanel";
 import { PointerRevealGroup } from "@/components/ui/pointer-reveal";
+import { Reveal } from "@/components/motion";
 import { servicesContent } from "@/content/portfolio-content";
 
 const serviceImageSizes =
@@ -45,39 +46,55 @@ function ServiceVisual({ service }: { service: Service }) {
           alt={service.image.alt}
           fill
           sizes={serviceImageSizes}
-          quality={100}
-          className="service-card-image"
+          quality={88}
+          className="service-card-image interactive-image-zoom"
         />
       )}
-
-      {/* <div className="service-card-vignette" aria-hidden="true" /> */}
     </div>
   );
 }
 
-function ServiceCard({ service }: { service: Service }) {
+function ServiceCard({
+  service,
+  index,
+}: {
+  service: Service;
+  index: number;
+}) {
   return (
-    <GlassPanel
-      radius="card"
-      className="service-card"
-      data-reveal-card
-      data-visual-treatment={service.image.treatment}
+    <Reveal
+      as="div"
+      variant="fade-up"
+      delay={(index % 3) * 90}
+      duration={500}
+      className="h-full"
     >
-      <ServiceVisual service={service} />
+      <GlassPanel
+        radius="card"
+        className="service-card interactive-card-motion h-full"
+        data-reveal-card
+        data-visual-treatment={service.image.treatment}
+      >
+        <ServiceVisual service={service} />
 
-      <div className="service-card-copy">
-        <h3>{service.title}</h3>
-        <p>{service.description}</p>
-      </div>
-    </GlassPanel>
+        <div className="service-card-copy">
+          <h3>{service.title}</h3>
+          <p>{service.description}</p>
+        </div>
+      </GlassPanel>
+    </Reveal>
   );
 }
 
 export function ServicesGrid() {
   return (
     <PointerRevealGroup className="service-grid" aria-label="Services">
-      {servicesContent.services.map((service) => (
-        <ServiceCard key={service.title} service={service} />
+      {servicesContent.services.map((service, index) => (
+        <ServiceCard
+          key={service.title}
+          service={service}
+          index={index}
+        />
       ))}
     </PointerRevealGroup>
   );
