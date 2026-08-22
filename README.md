@@ -3,7 +3,7 @@
 > **Full-Stack AI Product Developer**  
 > A modern, dark-themed portfolio built with Next.js, React, and TypeScript — showcasing projects, services, workflow, and contact in one polished experience.
 
-![Full page preview](./overview/screenshots/01-full-page-desktop.png)
+![Full page preview](./overview/overview/02-hero-desktop.png)
 
 ---
 
@@ -103,6 +103,7 @@ npm run dev
 Open [http://localhost:3000](http://localhost:3000).
 
 ### Production
+Open [https://ahmed-hassan-portfolio-flame.vercel.app](https://ahmed-hassan-portfolio-flame.vercel.app).
 
 ```bash
 npm run build
